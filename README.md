@@ -60,8 +60,3 @@ http://127.0.0.1:8000/admin/
 
 ### 2. PgAdmin + Admin de Django
 <img width="1600" height="1000" alt="image" src="https://github.com/user-attachments/assets/8bbcfd73-3f57-4585-8fc2-f6559452439c" />
-
-
-## Git ignore
-
-El proyecto contiene un archivo `.gitignore` que excluye el entorno virtual `entorno/` y archivos comunes de Python/Django.
