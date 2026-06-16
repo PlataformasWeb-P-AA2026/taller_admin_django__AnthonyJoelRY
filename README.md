@@ -56,33 +56,11 @@ http://127.0.0.1:8000/admin/
 ## Escenarios requeridos
 
 ### 1. SQLiteBrowser + Admin de Django
-
-> Espacio reservado para imagen:
->
-> ![SQLiteBrowser + Django Admin](./imagenes/sqlite_admin.png)
+<img width="1600" height="1000" alt="image" src="https://github.com/user-attachments/assets/3e479c6a-f8f0-4a9d-9efc-4e6482aa9fa2" />
 
 ### 2. PgAdmin + Admin de Django
+<img width="1600" height="1000" alt="image" src="https://github.com/user-attachments/assets/8bbcfd73-3f57-4585-8fc2-f6559452439c" />
 
-> Espacio reservado para imagen:
->
-> ![PgAdmin + Django Admin](./imagenes/pgadmin_admin.png)
-
-## Configuración de base de datos PostgreSQL
-
-En `patrimonio/patrimonio/settings.py` se puede usar una configuración como:
-
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mi_basedatos',
-        'USER': 'mi_usuario',
-        'PASSWORD': 'mi_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
 
 ## Git ignore
 
