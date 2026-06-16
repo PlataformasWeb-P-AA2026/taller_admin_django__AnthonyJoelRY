@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max, Sum
 
 # Create your models here.
 
@@ -7,9 +8,24 @@ class Museo(models.Model):
     ciudad = models.CharField(max_length=100)
     anio_fundacion = models.IntegerField()
 
-    def __str__(self):
-        return "%s (%s)" % (self.nombre, self.ciudad)
+    def costo_total_produccion(self):
+        total = Exhibicion.objects.filter(guia__museo=self).aggregate(total=Sum('costo_produccion'))['total']
+        return total or 0
 
+    def guia_mas_experiencia(self):
+        max_exp = self.guias.aggregate(max_exp=Max('anos_experiencia_guia'))['max_exp']
+        if max_exp is None:
+            return ''
+        nombres = self.guias.filter(anos_experiencia_guia=max_exp).values_list('nombre_completo', flat=True)
+        return ', '.join(nombres)
+
+    def __str__(self):
+        return "%s (%s) - Costo total producción: %s - Guía(s) con más experiencia: %s" % (
+            self.nombre,
+            self.ciudad,
+            self.costo_total_produccion(),
+            self.guia_mas_experiencia(),
+        )
 
 class GuiaMuseo(models.Model):
     nombre_completo = models.CharField(max_length=150)
