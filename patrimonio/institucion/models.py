@@ -19,13 +19,16 @@ class Museo(models.Model):
         nombres = self.guias.filter(anos_experiencia_guia=max_exp).values_list('nombre_completo', flat=True)
         return ', '.join(nombres)
 
-    def __str__(self):
+    def presentacion(self):
         return "%s (%s) - Costo total producción: %s - Guía(s) con más experiencia: %s" % (
             self.nombre,
             self.ciudad,
             self.costo_total_produccion(),
             self.guia_mas_experiencia(),
         )
+
+    def __str__(self):
+        return self.presentacion()
 
 class GuiaMuseo(models.Model):
     nombre_completo = models.CharField(max_length=150)
