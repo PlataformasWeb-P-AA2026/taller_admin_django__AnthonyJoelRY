@@ -72,11 +72,22 @@ WSGI_APPLICATION = 'patrimonio.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+# Si desea usar SQLite, descomentar esta sección y comentar la sección de PostgreSQL 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+#}
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mi_basedatos',
+        'USER': 'mi_usuario',
+        'PASSWORD': 'mi_password',
+        'HOST': 'localhost',  # o IP del servidor
+        'PORT': '5432',
     }
 }
 

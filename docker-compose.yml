@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  web:
+    image: php:8.2-apache
+    container_name: apache_php
+    ports:
+      - "8083:80"
+    volumes:
+      - ./app:/var/www/html
+    depends_on:
+      - db
+    environment:
+      APACHE_DOCUMENT_ROOT: /var/www/html
+    networks:
+      - devnet
+
+  db:
+    image: postgres:15
+    container_name: postgres_dev
+    restart: always
+    environment:
+      POSTGRES_DB: mi_basedatos
+      POSTGRES_USER: mi_usuario
+      POSTGRES_PASSWORD: mi_password
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  # Puerto estándar de PostgreSQL
+    networks:
+      - devnet
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_dev
+    restart: always
+    ports:
+      - "8081:80"    # Disponible en el puerto 8081
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: rootpass
+    depends_on:
+      - db
+    networks:
+      - devnet
+
+networks:
+  devnet:
+    driver: bridge

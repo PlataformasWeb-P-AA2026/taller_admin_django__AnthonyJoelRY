@@ -1,5 +1,5 @@
+from decimal import Decimal
 from django.db import models
-from django.db.models import Max, Sum
 
 # Create your models here.
 
@@ -9,14 +9,17 @@ class Museo(models.Model):
     anio_fundacion = models.IntegerField()
 
     def costo_total_produccion(self):
-        total = Exhibicion.objects.filter(guia__museo=self).aggregate(total=Sum('costo_produccion'))['total']
-        return total or 0
+        total = Decimal('0.00')
+        for exhibicion in Exhibicion.objects.filter(guia__museo=self):
+            total += exhibicion.costo_produccion or Decimal('0.00')
+        return total
 
     def guia_mas_experiencia(self):
-        max_exp = self.guias.aggregate(max_exp=Max('anos_experiencia_guia'))['max_exp']
-        if max_exp is None:
+        guias = list(self.guias.all())
+        if not guias:
             return ''
-        nombres = self.guias.filter(anos_experiencia_guia=max_exp).values_list('nombre_completo', flat=True)
+        max_exp = max(guia.anos_experiencia_guia for guia in guias)
+        nombres = [guia.nombre_completo for guia in guias if guia.anos_experiencia_guia == max_exp]
         return ', '.join(nombres)
 
     def presentacion(self):
@@ -28,7 +31,7 @@ class Museo(models.Model):
         )
 
     def __str__(self):
-        return self.presentacion()
+        return self.nombre
 
 class GuiaMuseo(models.Model):
     nombre_completo = models.CharField(max_length=150)
